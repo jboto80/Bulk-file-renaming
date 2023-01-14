@@ -1,0 +1,23 @@
+const fs = require('fs');
+
+function bulkRename(dir, oldExt, newExt) {
+    fs.readdir(dir, (err, files) => {
+        if (err) {
+            console.error(`Error reading directory: ${err}`);
+            return;
+        }
+        files.forEach(file => {
+            if (file.endsWith(oldExt)) {
+                const newFile = file.replace(oldExt, newExt);
+                fs.rename(`${dir}/${file}`, `${dir}/${newFile}`, err => {
+                    if (err) console.error(`Error renaming file ${file}: ${err}`);
+                });
+            }
+        });
+    });
+}
+
+// Usage example:
+bulkRename('./files', '.txt', '.md');
+
+
